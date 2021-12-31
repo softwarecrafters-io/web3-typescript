@@ -48,5 +48,9 @@
       "npm run compile",
       "git add . "
     ]
+  },
+  "dependencies": {
+    "rxjs": "^7.5.1",
+    "web3": "^1.6.1"
   }
 }
