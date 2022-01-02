@@ -1,7 +1,9 @@
 import Web3 from 'web3';
-import { from, map, Observable } from 'rxjs';
+import { from as fromPromise, map, Observable, share } from 'rxjs';
 
 export class ClientWrapper {
+	private readonly weiConversion = 1000000000000000000;
+
 	constructor(private client: Web3) {}
 
 	static create(urlNode: string) {
@@ -11,14 +13,31 @@ export class ClientWrapper {
 	}
 
 	getAccounts() {
-		return from(this.client.eth.getAccounts());
+		return fromPromise(this.client.eth.getAccounts());
 	}
 
 	getBalance(walletAddress: string) {
-		return from(this.client.eth.getBalance(walletAddress, 'latest'));
+		return fromPromise(this.client.eth.getBalance(walletAddress, 'latest')).pipe(
+			map((balance) => this.toEther(balance))
+		);
 	}
 
-	sendTransaction(fromAddress: string, toAddress: string, value: string) {
-		return from(this.client.eth.sendTransaction({ from: fromAddress, to: toAddress, value }));
+	private toEther(weiValue: string) {
+		return Number(weiValue) / this.weiConversion;
+	}
+
+	sendTransaction(from: string, to: string, value: number) {
+		value = this.toWei(value);
+		return fromPromise(
+			this.client.eth.sendTransaction({
+				from,
+				to,
+				value,
+			})
+		);
+	}
+
+	private toWei(etherValue: number) {
+		return etherValue * this.weiConversion;
 	}
 }
