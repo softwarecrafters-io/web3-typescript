@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 import { from as fromPromise, map, Observable, share } from 'rxjs';
 
-export class ClientWrapper {
+export class EthereumClient {
 	private readonly weiConversion = 1000000000000000000;
 
 	constructor(private client: Web3) {}
@@ -9,7 +9,7 @@ export class ClientWrapper {
 	static create(urlNode: string) {
 		const provider = new Web3.providers.HttpProvider(urlNode);
 		const client = new Web3(provider);
-		return new ClientWrapper(client);
+		return new EthereumClient(client);
 	}
 
 	getAccounts() {

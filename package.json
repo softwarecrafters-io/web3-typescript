@@ -17,7 +17,8 @@
     "test:watch": "npm run test -- --watchAll",
     "test:coverage": "npm run test -- --coverage",
     "check-updates": "ncu -u",
-    "ganache": "npx ganache-cli --seed customSeed --accounts 5"
+    "ethereum-node": "npx ganache-cli --seed customSeed --accounts 5",
+    "compile:contracts": "solcjs --bin --abi --optimize -p -o contracts/artifacts "
   },
   "author": "Softwarecrafters.io",
   "license": "MIT",
@@ -55,6 +56,7 @@
   },
   "dependencies": {
     "rxjs": "^7.5.1",
+    "solc": "^0.8.11",
     "web3": "^1.6.1"
   }
 }

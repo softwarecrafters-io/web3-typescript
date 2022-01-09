@@ -1,11 +1,11 @@
-import { ClientWrapper } from '../core/ClientWrapper';
+import { EthereumClient } from '../wrappers/EthereumClient';
 import { firstValueFrom } from 'rxjs';
 import ganache from 'ganache-cli';
 
 describe('The Ethereum Client should', () => {
 	const hostname = 'localhost';
 	const port = 8545;
-	const ethereumClient = ClientWrapper.create(`http://${hostname}:${port}`);
+	const ethereumClient = EthereumClient.create(`http://${hostname}:${port}`);
 	const defaultBalance = 10;
 	let ethereumNode;
 
@@ -35,7 +35,7 @@ describe('The Ethereum Client should', () => {
 		]);
 	});
 
-	it('gets balance for a given account', async () => {
+	it('gets balance in ether for a given account', async () => {
 		const account = (await firstValueFrom(ethereumClient.getAccounts()))[0];
 
 		const action = await firstValueFrom(ethereumClient.getBalance(account));
