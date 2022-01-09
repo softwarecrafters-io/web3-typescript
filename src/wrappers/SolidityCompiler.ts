@@ -22,14 +22,14 @@ export class SolidityCompiler {
 	}
 
 	generateOpCodes() {
-		return this.ethereumVirtualMachineInformation()['opcodes'];
+		return this.evmInformation()['opcodes'];
 	}
 
 	generateByteCode() {
-		return this.ethereumVirtualMachineInformation()['object'];
+		return this.evmInformation()['object'];
 	}
 
-	private ethereumVirtualMachineInformation() {
+	private evmInformation() {
 		return this.compiledContractInformation()['evm']['bytecode'];
 	}
 
