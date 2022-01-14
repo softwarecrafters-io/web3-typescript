@@ -1,5 +1,7 @@
 import Web3 from 'web3';
-import { from as fromPromise, map, Observable, share } from 'rxjs';
+import { from as fromPromise, map, Observable } from 'rxjs';
+import { CompiledContract } from '../models/CompiledContract';
+import { AbiItem } from '../dtos/contractDtos';
 
 export class EthereumClient {
 	private readonly weiConversion = 1000000000000000000;
@@ -39,5 +41,17 @@ export class EthereumClient {
 
 	private toWei(etherValue: number) {
 		return etherValue * this.weiConversion;
+	}
+
+	deployContractFrom(
+		contract: CompiledContract,
+		accountAddress: string,
+		gas: number
+	): Observable<string> {
+		return fromPromise(
+			new this.client.eth.Contract(contract.abi as any)
+				.deploy({ data: contract.bytecode })
+				.send({ from: accountAddress, gas })
+		).pipe(map((c) => c.options.address));
 	}
 }

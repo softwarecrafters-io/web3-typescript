@@ -1,7 +1,14 @@
 import { SolidityCompiler } from '../wrappers/SolidityCompiler';
+import { createContract, createContractWithoutLicence } from './Fixtures';
 
 describe('The solidity compiler should', () => {
 	describe('from file', () => {
+		it('generates contract metadata for a given contract', () => {
+			const result = SolidityCompiler.createFromFile('Hello').generateContractMetadata();
+
+			expect(result).toMatchSnapshot();
+		});
+
 		it('generates byte code for a given contract', () => {
 			const result = SolidityCompiler.createFromFile('Hello').generateByteCode();
 
@@ -53,8 +60,15 @@ describe('The solidity compiler should', () => {
 	});
 
 	describe('from memory', () => {
+		it('generates contract metadata for a given contract', () => {
+			const contract = SolidityCompiler.createFromMemory('Hello', createContract());
+
+			expect(contract.generateContractMetadata()).toMatchSnapshot();
+		});
+
 		it('generates byte code for a given contract', () => {
 			const contract = SolidityCompiler.createFromMemory('Hello', createContract());
+
 			expect(contract.generateByteCode()).toBe(
 				'6080604052600160005534801561001557600080fd5b50610133806100256000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806355241077146037578063d2902e8b14604f575b600080fd5b604d60048036038101906049919060af565b6069565b005b60556073565b6040516060919060e4565b60405180910390f35b8060008190555050565b60005481565b600080fd5b6000819050919050565b608f81607e565b8114609957600080fd5b50565b60008135905060a9816088565b92915050565b60006020828403121560c25760c16079565b5b600060ce84828501609c565b91505092915050565b60de81607e565b82525050565b600060208201905060f7600083018460d7565b9291505056fea2646970667358221220215891e83ae0679e2f80fb240d04236d93673fbbf97eb3510fd88a8bf60ed85364736f6c634300080b0033'
 			);
@@ -106,33 +120,4 @@ describe('The solidity compiler should', () => {
 			expect(() => contract.generateABI()).toThrow();
 		});
 	});
-
-	function createContract() {
-		return `
-			// SPDX-License-Identifier: Unlicense
-			pragma solidity ^0.8.0;
-
-			contract Hello {
-					uint public _myValue = 1;
-			
-					function setValue(uint myValue) public {
-							_myValue = myValue ;
-					}
-			}
-		`;
-	}
-
-	function createContractWithoutLicence() {
-		return `
-			pragma solidity ^0.8.0;
-
-			contract Hello {
-					uint public _myValue = 1;
-			
-					function setValue(uint myValue) public {
-							_myValue = myValue ;
-					}
-			}
-		`;
-	}
 });

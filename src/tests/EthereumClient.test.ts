@@ -1,6 +1,8 @@
 import { EthereumClient } from '../wrappers/EthereumClient';
 import { firstValueFrom } from 'rxjs';
 import ganache from 'ganache-cli';
+import { createContract } from './Fixtures';
+import { SolidityCompiler } from '../wrappers/SolidityCompiler';
 
 describe('The Ethereum Client should', () => {
 	const hostname = 'localhost';
@@ -55,5 +57,21 @@ describe('The Ethereum Client should', () => {
 		expect(transaction.status).toBe(true);
 		expect(balanceAccount1).toBe(9);
 		expect(balanceAccount2).toBe(11);
+	});
+
+	it('deploys a given contract', async () => {
+		const contractName = 'Hello';
+		const contract = createContract(contractName);
+		const compiledContract = SolidityCompiler.createFromMemory(
+			contractName,
+			contract
+		).generateContractMetadata();
+		const account = (await firstValueFrom(ethereumClient.getAccounts()))[0];
+
+		const contractAddress = await firstValueFrom(
+			ethereumClient.deployContractFrom(compiledContract, account, 300000)
+		);
+
+		expect(contractAddress.length).toBe(42);
 	});
 });

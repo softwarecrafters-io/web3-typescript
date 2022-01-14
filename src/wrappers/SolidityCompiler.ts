@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import solc from 'solc';
+import { CompiledContract } from '../models/CompiledContract';
 
 export class SolidityCompiler {
 	private constructor(private readonly contractName: string, private readonly config: string) {}
@@ -15,6 +16,10 @@ export class SolidityCompiler {
 	static createFromMemory(contractName: string, contractContent: string) {
 		const config = this.createConfiguration(contractName, contractContent);
 		return new SolidityCompiler(contractName, config);
+	}
+
+	generateContractMetadata(): CompiledContract {
+		return CompiledContract.create(this.generateABI(), this.generateByteCode());
 	}
 
 	generateABI() {

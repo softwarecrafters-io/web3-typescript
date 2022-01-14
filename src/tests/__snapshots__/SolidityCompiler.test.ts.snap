@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The solidity compiler should from file generates contract metadata for a given contract 1`] = `
+CompiledContract {
+  "abi": Array [
+    Object {
+      "inputs": Array [],
+      "name": "_myValue",
+      "outputs": Array [
+        Object {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256",
+        },
+      ],
+      "stateMutability": "view",
+      "type": "function",
+    },
+    Object {
+      "inputs": Array [
+        Object {
+          "internalType": "uint256",
+          "name": "myValue",
+          "type": "uint256",
+        },
+      ],
+      "name": "setValue",
+      "outputs": Array [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+    },
+  ],
+  "bytecode": "6080604052600160005534801561001557600080fd5b50610133806100256000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806355241077146037578063d2902e8b14604f575b600080fd5b604d60048036038101906049919060af565b6069565b005b60556073565b6040516060919060e4565b60405180910390f35b8060008190555050565b60005481565b600080fd5b6000819050919050565b608f81607e565b8114609957600080fd5b50565b60008135905060a9816088565b92915050565b60006020828403121560c25760c16079565b5b600060ce84828501609c565b91505092915050565b60de81607e565b82525050565b600060208201905060f7600083018460d7565b9291505056fea2646970667358221220029e694492f6b562e157f0925ea1dbe032e1f2c7afa8393476e6c26f72a0ce7d64736f6c634300080b0033",
+}
+`;
+
+exports[`The solidity compiler should from memory generates contract metadata for a given contract 1`] = `
+CompiledContract {
+  "abi": Array [
+    Object {
+      "inputs": Array [],
+      "name": "_myValue",
+      "outputs": Array [
+        Object {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256",
+        },
+      ],
+      "stateMutability": "view",
+      "type": "function",
+    },
+    Object {
+      "inputs": Array [
+        Object {
+          "internalType": "uint256",
+          "name": "myValue",
+          "type": "uint256",
+        },
+      ],
+      "name": "setValue",
+      "outputs": Array [],
+      "stateMutability": "nonpayable",
+      "type": "function",
+    },
+  ],
+  "bytecode": "6080604052600160005534801561001557600080fd5b50610133806100256000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806355241077146037578063d2902e8b14604f575b600080fd5b604d60048036038101906049919060af565b6069565b005b60556073565b6040516060919060e4565b60405180910390f35b8060008190555050565b60005481565b600080fd5b6000819050919050565b608f81607e565b8114609957600080fd5b50565b60008135905060a9816088565b92915050565b60006020828403121560c25760c16079565b5b600060ce84828501609c565b91505092915050565b60de81607e565b82525050565b600060208201905060f7600083018460d7565b9291505056fea2646970667358221220215891e83ae0679e2f80fb240d04236d93673fbbf97eb3510fd88a8bf60ed85364736f6c634300080b0033",
+}
+`;
