@@ -19,18 +19,22 @@ export class SolidityCompiler {
 	}
 
 	generateContractMetadata(): CompiledContract {
-		return CompiledContract.create(this.generateABI(), this.generateByteCode());
+		return CompiledContract.create(
+			this.generateABI(),
+			this.generateByteCode(),
+			this.generateOpCodes()
+		);
 	}
 
-	generateABI() {
+	private generateABI() {
 		return this.compiledContractInformation()['abi'];
 	}
 
-	generateOpCodes() {
+	private generateOpCodes() {
 		return this.evmInformation()['opcodes'];
 	}
 
-	generateByteCode() {
+	private generateByteCode() {
 		return this.evmInformation()['object'];
 	}
 

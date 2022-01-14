@@ -1,8 +1,8 @@
-import { EthereumClient } from '../wrappers/EthereumClient';
+import { EthereumClient } from '../application/wrappers/EthereumClient';
 import { firstValueFrom } from 'rxjs';
 import ganache from 'ganache-cli';
 import { createContract } from './Fixtures';
-import { SolidityCompiler } from '../wrappers/SolidityCompiler';
+import { SolidityCompiler } from '../application/wrappers/SolidityCompiler';
 
 describe('The Ethereum Client should', () => {
 	const hostname = 'localhost';

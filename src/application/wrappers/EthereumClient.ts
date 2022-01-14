@@ -1,7 +1,6 @@
 import Web3 from 'web3';
 import { from as fromPromise, map, Observable } from 'rxjs';
 import { CompiledContract } from '../models/CompiledContract';
-import { AbiItem } from '../dtos/contractDtos';
 
 export class EthereumClient {
 	private readonly weiConversion = 1000000000000000000;
