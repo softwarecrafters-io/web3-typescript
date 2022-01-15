@@ -8,7 +8,10 @@ export class SolidityCompiler {
 
 	static createFromFile(contractName: string) {
 		const filename = contractName + '.sol';
-		const content = fs.readFileSync(path.resolve(__dirname, '../../contracts', filename), 'utf8');
+		const content = fs.readFileSync(
+			path.resolve(__dirname, '../../../contracts', filename),
+			'utf8'
+		);
 		const config = this.createConfiguration(contractName, content);
 		return new SolidityCompiler(contractName, config);
 	}

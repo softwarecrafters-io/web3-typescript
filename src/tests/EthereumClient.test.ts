@@ -74,4 +74,41 @@ describe('The Ethereum Client should', () => {
 
 		expect(contractAddress.length).toBe(42);
 	});
+
+	it('sends and get data to a given smart contract', async () => {
+		const { compiledContract, accountAddress, contractAddress } = await deployContract();
+		const account = {
+			from: accountAddress,
+			gas: 30000,
+		};
+		const contractInstance = {
+			abi: compiledContract.abi,
+			address: contractAddress,
+		};
+		const method = {
+			name: 'setValue',
+			value: 2,
+		};
+		await firstValueFrom(
+			ethereumClient.sendDataToContractMethod<number>(account, contractInstance, method)
+		);
+		const value = await firstValueFrom(
+			ethereumClient.getDataFromContractMethod(account, contractInstance, '_myValue')
+		);
+		expect(value).toBe('2');
+	});
+
+	async function deployContract() {
+		const contractName = 'Hello';
+		const contract = createContract(contractName);
+		const compiledContract = SolidityCompiler.createFromMemory(
+			contractName,
+			contract
+		).generateContractMetadata();
+		const accountAddress = (await firstValueFrom(ethereumClient.getAccounts()))[0];
+		const contractAddress = await firstValueFrom(
+			ethereumClient.deployContractFrom(compiledContract, accountAddress, 300000)
+		);
+		return { compiledContract, accountAddress, contractAddress };
+	}
 });

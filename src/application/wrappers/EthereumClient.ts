@@ -1,6 +1,7 @@
 import Web3 from 'web3';
 import { from as fromPromise, map, Observable } from 'rxjs';
 import { CompiledContract } from '../models/CompiledContract';
+import { AbiItem } from '../dtos/contractDtos';
 
 export class EthereumClient {
 	private readonly weiConversion = 1000000000000000000;
@@ -53,4 +54,43 @@ export class EthereumClient {
 				.send({ from: accountAddress, gas })
 		).pipe(map((c) => c.options.address));
 	}
+
+	sendDataToContractMethod<T>(
+		account: Account,
+		contractInstance: ContractIntance,
+		method: Method<T>
+	) {
+		return fromPromise(
+			new this.client.eth.Contract(contractInstance.abi as any, contractInstance.address).methods[
+				method.name
+			](method.value).send({ from: account.from, gas: account.gas })
+		);
+	}
+
+	getDataFromContractMethod<T>(
+		account: Account,
+		contractInstance: ContractIntance,
+		methodName: string
+	) {
+		return fromPromise(
+			new this.client.eth.Contract(contractInstance.abi as any, contractInstance.address).methods[
+				methodName
+			]().call({ from: account.from, gas: account.gas })
+		);
+	}
 }
+
+type Account = {
+	from: string;
+	gas: number;
+};
+
+type ContractIntance = {
+	address: string;
+	abi: AbiItem[];
+};
+
+type Method<T> = {
+	name: string;
+	value: T;
+};
